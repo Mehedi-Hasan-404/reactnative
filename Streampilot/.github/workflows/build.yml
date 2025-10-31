@@ -1,0 +1,49 @@
+name: Build React Native Debug APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 17
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install Gradle
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Prepare gradle wrapper if missing
+      working-directory: android
+      run: |
+        gradle wrapper || true
+        chmod +x gradlew || true
+
+    - name: Build Debug APK
+      working-directory: android
+      run: |
+        ./gradlew assembleDebug
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug
+        path: android/app/build/outputs/apk/debug/app-debug.apk

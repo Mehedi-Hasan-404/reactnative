@@ -1,0 +1,14 @@
+{
+  "name": "Streampilot",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.82.1",
+    "react-native-video": "^6.0.0"
+  }
+}
